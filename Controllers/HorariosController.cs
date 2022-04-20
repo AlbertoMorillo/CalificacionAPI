@@ -39,6 +39,24 @@ namespace CalificacionAPI.Controllers
             return horario;
         }
 
+        [HttpGet("{semestre}/{codigoProfesor}")]
+        public List<string> GetHorarioDistinct(int semestre, int codigoProfesor)
+        {
+            var query = _context.Horarios.AsQueryable();
+            query = query.Where(a => a.Semestre == semestre && a.Profesor == codigoProfesor && a.Estatus != "N");
+            var horarios = query.Select(s => s.Materia.ToString()).Distinct().ToList();
+            return horarios;
+        }
+
+        [HttpGet("{codigoMateria}/{semestre}/{codigoProfesor}")]
+        public List<int?> GetGruposDistinct(int codigoMateria, int semestre, int codigoProfesor)
+        {
+            var query = _context.Horarios.AsQueryable();
+            query = query.Where(s => s.Materia == codigoMateria && s.Semestre == semestre && s.Profesor == codigoProfesor);
+            List<int?> grupos = query.Select(h => h.Grupo).Distinct().ToList();
+            return grupos;
+        }
+
         [HttpPut("{id}")]
         public async Task<IActionResult> PutHorario(int id, Horario horario)
         {

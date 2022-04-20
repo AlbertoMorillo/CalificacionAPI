@@ -27,9 +27,9 @@ namespace CalificacionAPI.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Estudiante>> GetEstudiante(int id)
+        public ActionResult<Estudiante> GetEstudiante(int id)
         {
-            var estudiante = await _context.Estudiantes.FindAsync(id);
+            var estudiante = _context.Estudiantes.Where(e=>e.IdUsuario == id).FirstOrDefault();
 
             if (estudiante == null)
             {
