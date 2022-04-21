@@ -39,6 +39,19 @@ namespace CalificacionAPI.Controllers
             return seleccion;
         }
 
+        [HttpGet("{materia}/{semestre}/{grupo}")]
+        public async Task<ActionResult<IEnumerable<Seleccion>>> GetSeleccion(int materia, int semestre, int grupo)
+        {
+            var seleccion = await _context.Seleccions.Where(s=>s.Materia == materia && s.Semestre == semestre && s.Grupo == grupo).ToListAsync();
+
+            if (seleccion == null)
+            {
+                return NotFound();
+            }
+
+            return seleccion;
+        }
+
         [HttpPut("{id}")]
         public async Task<IActionResult> PutSeleccion(int id, Seleccion seleccion)
         {

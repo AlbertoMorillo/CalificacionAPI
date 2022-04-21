@@ -38,6 +38,30 @@ namespace CalificacionAPI.Controllers
 
             return calificacion;
         }
+        [HttpGet("{codigoProfesor}/{materia}/{grupo}/{semestre}")]
+        public async Task<ActionResult<IEnumerable<Calificacion>>> getGalificacionCalificadasAsync(int codigoProfesor, string materia, int? grupo, int semestre)
+        {
+            return await _context.Calificacions.Where(h=>h.Codigoprof == codigoProfesor && h.Materia == int.Parse(materia) && h.Grupo == grupo && h.Semestre == semestre).ToListAsync();
+        }
+
+        [HttpGet("Init/{codigoProfesor}/{materia}/{semestre}")]
+        public async Task<ActionResult<IEnumerable<Horario>>> getGalificacionCalificadasNotGrupoAsync(int codigoProfesor, string materia, int semestre)
+        {
+            return await _context.Horarios.Where(h => h.Usuario == codigoProfesor && h.Materia == int.Parse(materia) && h.Semestre == semestre).ToListAsync();
+        }
+
+        [HttpGet("{codigoProfesor}/{materia}/{grupo}/{semestre}/{matricula}")]
+        public  ActionResult<Calificacion> getGalificacionCalificadasGrupoAsync(int codigoProfesor, string materia,int grupo, int semestre, string matricula)
+        {
+            return _context.Calificacions.Where(h => h.Codigoprof == codigoProfesor && h.Materia == int.Parse(materia) && h.Semestre == semestre && h.Codigoprof == codigoProfesor && h.Matriculan == matricula && h.Grupo == grupo).FirstOrDefault();
+        }
+
+        [HttpGet("{materia}/{grupo}/{semestre}")]
+        public async Task<ActionResult<IEnumerable<Horario>>> GetCalificacionEstudiantes(string materia, int grupo, int semestre)
+        {
+            return await _context.Horarios.Where(h => h.Materia == int.Parse(materia) && h.Grupo == grupo && h.Semestre == semestre).ToListAsync();
+        }
+
 
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCalificacion(int id, Calificacion calificacion)

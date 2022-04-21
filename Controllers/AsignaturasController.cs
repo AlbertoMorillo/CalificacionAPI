@@ -39,6 +39,19 @@ namespace CalificacionAPI.Controllers
             return asignatura;
         }
 
+        [HttpGet("/Materia/{materia}")]
+        public ActionResult<Asignatura> GetAsignaturaByMateria(int materia)
+        {
+            var asignatura = _context.Asignaturas.Where(m=>m.AsignaturaId == materia).FirstOrDefault();
+
+            if (asignatura == null)
+            {
+                return NotFound();
+            }
+
+            return asignatura;
+        }
+
         [HttpPut("{id}")]
         public async Task<IActionResult> PutAsignatura(int id, Asignatura asignatura)
         {
